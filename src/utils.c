@@ -31,3 +31,13 @@ int	print_err(char const *s)
 {
 	return (print_fd(STDERR_FILENO, s));
 }
+
+void	null_free(void *p[])
+{
+	while (*p)
+	{
+		free(*(void **)*p);
+		*(void **)*p = 0;
+		p++;
+	}
+}

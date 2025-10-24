@@ -13,7 +13,7 @@
 NAME := philo
 
 SRC := src/main.c src/program_init.c src/program_print_error.c src/utils.c \
-	src/program_init2.c
+	src/program_init2.c src/proc.c
 OBJ := $(SRC:src/%.c=obj/%.o)
 
 CC := cc

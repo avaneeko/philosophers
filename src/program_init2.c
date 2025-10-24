@@ -68,7 +68,7 @@ static int	init_criticals(t_prog *p)
 		{
 			k = ~0;
 			while (++k < i)
-				pthread_mutex_destroy(p->forks + i);
+				pthread_mutex_destroy(p->forks + k);
 			free(p->philos);
 			free(p->th);
 			free(p->forks);
@@ -83,7 +83,23 @@ static int	init_criticals(t_prog *p)
 
 static int	create_threads(t_prog *p)
 {
-	unsigned int	i = 0;
-	// TODO
+	unsigned int	i;
+	unsigned int	k;
+
+	i = ~0;
+	while (++i < p->n_philo)
+	{
+		p->err = pthread_create(p->th + i, NULL, proc, p->philos + i);
+		if (p->err)
+		{
+			p->sim_stop = 1;
+			p->s_barrier = 1;
+			k = ~0;
+			while (++k < i)
+				pthread_join(p->th[k], NULL);
+			null_free((void *[]){&p->philos, &p->th, &p->forks, NULL});
+			return (0);
+		}
+	}
 	return (1);
 }

@@ -32,6 +32,7 @@ typedef struct s_prog
 	t_thread	*th;		// Philosopher thread array.
 	t_critical	*forks;		// Critical section array.
 	_Atomic int	s_barrier;	// Simulation start barrier. 0 means closed.
+	_Atomic int	sim_stop;	// Simulation stop. 1 means stop.
 }	t_prog;
 
 struct s_philo
@@ -55,6 +56,9 @@ int		program_init(int argc, char const **argv, t_prog *out);
 //
 void	program_print_error(t_prog const *p);
 
+// Thread entry point.
+void	*proc(void *arg);
+
 ////////////////////////////////////////////////////////////////////////////////
 // Utils																	  //
 ////////////////////////////////////////////////////////////////////////////////
@@ -67,3 +71,6 @@ int	print(char const *s);
 
 // Print a string to STDERR.
 int	print_err(char const *s);
+
+// Frees and nulls ptr from the null-terminated ptr array.
+void	null_free(void *p[]);
