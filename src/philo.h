@@ -16,6 +16,10 @@
 #include <pthread.h>
 #include <errno.h>
 
+typedef pthread_mutex_t	t_critical;
+typedef pthread_t		t_thread;
+typedef struct s_philo	t_philo;
+
 typedef struct s_prog
 {
 	unsigned	n_philo;	// Number of philosophers
@@ -24,7 +28,21 @@ typedef struct s_prog
 	unsigned	t_sleep;	// Time to sleep
 	unsigned	n_to_eat;	// Number of times each must eat.
 	int			err;		// Last error. 0 if no error.
+	t_philo		*philos;	// Philosopher data array.
+	t_thread	*th;		// Philosopher thread array.
+	t_critical	*forks;		// Critical section array.
+	_Atomic int	s_barrier;	// Simulation start barrier. 0 means closed.
 }	t_prog;
+
+struct s_philo
+{
+	unsigned		id;			// Philosopher ID
+	unsigned		n_eaten;	// Number of times eaten
+	unsigned long	last_meal;	// Timestamp of last meal
+	t_prog const	*prog;		// Ptr to program data
+	t_critical		*l_fork;	// Ptr to left fork
+	t_critical		*r_fork;	// Ptr to right fork
+};
 
 //
 //	Program initialize.

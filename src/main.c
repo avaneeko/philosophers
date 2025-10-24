@@ -16,9 +16,11 @@ int	main(int argc, char const **argv)
 {
 	t_prog	prog;
 	if(!program_init(argc, argv, &prog))
-		return (__builtin_dump_struct(&prog, &printf), 0);
-	else
-		return (write(2, "Invalid command line arguments.\n", 32), 1);
+	{
+		program_print_error(&prog);
+		return (1);
+	}
+	__builtin_dump_struct(&prog, &printf);
 
 	return (0);
 }

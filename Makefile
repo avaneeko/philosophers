@@ -12,7 +12,8 @@
 
 NAME := philo
 
-SRC := src/main.c src/program_init.c
+SRC := src/main.c src/program_init.c src/program_print_error.c src/utils.c \
+	src/program_init2.c
 OBJ := $(SRC:src/%.c=obj/%.o)
 
 CC := cc
@@ -28,7 +29,7 @@ $(NAME): $(OBJ)
 obj:
 	mkdir -p obj
 
-obj/%.o: src/%.c obj
+obj/%.o: src/%.c | obj
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:

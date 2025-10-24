@@ -19,7 +19,7 @@ static int	print_fd(int fd, char const *s)
 	size_t const	len = slen(s);
 	ssize_t const	written = write(fd, s, len);
 
-	return (written == len);
+	return ((size_t)written == len);
 }
 
 int	print(char const *s)

@@ -13,6 +13,9 @@
 #include "philo.h"
 #include <limits.h>
 
+// From program_init2.c
+int	alloc_simulation(t_prog *p);
+
 //
 //	Decimal string to unsigned.
 //*	Returns 1 on successful conversion and 0 on overflow or conversion failure.
@@ -69,6 +72,11 @@ int	program_init(int argc, char const **argv, t_prog *out)
 {
 	*out = (t_prog){0};
 	if (!parse_arguments(argc, argv, out))
+	{
+		out->err = EINVAL;
+		return (0);
+	}
+	if (!alloc_simulation(out))
 		return (0);
 	return (1);
 }
