@@ -12,8 +12,10 @@
 
 #include "philo.h"
 
+unsigned long START;
 int	main(int argc, char const **argv)
 {
+	START = now_ms();
 	t_prog	prog;
 	if(!program_init(argc, argv, &prog))
 	{
@@ -21,6 +23,7 @@ int	main(int argc, char const **argv)
 		return (1);
 	}
 	__builtin_dump_struct(&prog, &printf);
+	start_simulation(&prog);;
 
 	return (0);
 }

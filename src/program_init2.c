@@ -23,7 +23,7 @@ int	alloc_simulation(t_prog *p)
 	{
 		p->philos[i].id = i;
 		p->philos[i].prog = p;
-		p->philos[i].l_fork = &p->forks[(i - 1) % p->n_philo];
+		p->philos[i].l_fork = &p->forks[(i + 0) % p->n_philo];
 		p->philos[i].r_fork = &p->forks[(i + 1) % p->n_philo];
 		p->philos[i].n_eaten = 0;
 		p->philos[i].last_meal = 0;

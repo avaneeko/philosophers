@@ -10,11 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef PHILO_H
+# define PHILO_H
+
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <pthread.h>
 #include <errno.h>
+#include <sys/time.h>
 
 typedef pthread_mutex_t	t_critical;
 typedef pthread_t		t_thread;
@@ -59,6 +63,33 @@ void	program_print_error(t_prog const *p);
 // Thread entry point.
 void	*proc(void *arg);
 
+// Starts the simulation.
+void	start_simulation(t_prog *p);
+
+int	sleep_aware(int unsigned microseconds, _Atomic int const *sim_end);
+
+////////////////////////////////////////////////////////////////////////////////
+//	Logging function.														  //
+////////////////////////////////////////////////////////////////////////////////
+
+#define MSG_TAKEN_FORK "has taken a fork\n"
+#define MSG_EATING "is eating\n"
+#define MSG_SLEEPING "is sleeping\n"
+#define MSG_THINKING "is thinking\n"
+#define MSG_DIED "died\n"
+
+// 10 for all possible id numbers.
+// 20 for all possible timestamps.
+// 2 for spaces.
+// 17 for longest msg.
+# define LOG_BUF_SIZE 49
+
+// too bad I can't name this log()
+void	log_state(unsigned int id, char const *msg, _Atomic int const *sim_end);
+
+// Current timestamp in ms.
+unsigned long	now_ms(void);
+
 ////////////////////////////////////////////////////////////////////////////////
 // Utils																	  //
 ////////////////////////////////////////////////////////////////////////////////
@@ -67,10 +98,16 @@ void	*proc(void *arg);
 size_t	slen(char const *s);
 
 // Print a string to STDOUT.
-int	print(char const *s);
+int		print(char const *s);
 
 // Print a string to STDERR.
-int	print_err(char const *s);
+int		print_err(char const *s);
 
 // Frees and nulls ptr from the null-terminated ptr array.
 void	null_free(void *p[]);
+
+void	mreverse(void *p, size_t size);
+
+void	mcpy(void *dst, void const* src, size_t size);
+
+#endif
