@@ -37,6 +37,7 @@ typedef struct s_prog
 	t_critical	*forks;		// Critical section array.
 	_Atomic int	s_barrier;	// Simulation start barrier. 0 means closed.
 	_Atomic int	sim_stop;	// Simulation stop. 1 means stop.
+	t_critical	print_acq;	// Critical to avoid mixed prints.
 }	t_prog;
 
 struct s_philo

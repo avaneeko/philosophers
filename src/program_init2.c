@@ -30,6 +30,7 @@ int	alloc_simulation(t_prog *p)
 	}
 	if (!init_criticals(p) || !create_threads(p))
 		return (0);
+	if (!pthread_mutex_init(&p->print_acq, NULL))
 	return (1);
 }
 
