@@ -6,7 +6,7 @@
 /*   By: losypenk <losypenk@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 15:39:22 by losypenk          #+#    #+#             */
-/*   Updated: 2025/10/22 12:28:54 by losypenk         ###   ########.fr       */
+/*   Updated: 2025/11/01 12:21:32 by losypenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 typedef pthread_mutex_t	t_critical;
 typedef pthread_t		t_thread;
 typedef struct s_philo	t_philo;
+typedef unsigned long	t_time;
 
 typedef struct s_prog
 {
@@ -31,23 +32,24 @@ typedef struct s_prog
 	unsigned	t_eat;		// Time to eat
 	unsigned	t_sleep;	// Time to sleep
 	unsigned	n_to_eat;	// Number of times each must eat.
+	t_time		start_time;	// Simulation start time.
 	int			err;		// Last error. 0 if no error.
 	t_philo		*philos;	// Philosopher data array.
 	t_thread	*th;		// Philosopher thread array.
 	t_critical	*forks;		// Critical section array.
-	_Atomic int	s_barrier;	// Simulation start barrier. 0 means closed.
-	_Atomic int	sim_stop;	// Simulation stop. 1 means stop.
+	int			s_barrier;	// Simulation start barrier. 0 means closed.
+	int			sim_stop;	// Simulation stop. 1 means stop.
 	t_critical	print_acq;	// Critical to avoid mixed prints.
 }	t_prog;
 
 struct s_philo
 {
-	unsigned		id;			// Philosopher ID
-	unsigned		n_eaten;	// Number of times eaten
-	unsigned long	last_meal;	// Timestamp of last meal
-	t_prog const	*prog;		// Ptr to program data
-	t_critical		*l_fork;	// Ptr to left fork
-	t_critical		*r_fork;	// Ptr to right fork
+	unsigned				id;			// Philosopher ID
+	_Atomic unsigned		n_eaten;	// Number of times eaten
+	_Atomic t_time			last_meal;	// Timestamp of last meal
+	t_prog					*prog;		// Ptr to program data
+	t_critical				*l_fork;	// Ptr to left fork
+	t_critical				*r_fork;	// Ptr to right fork
 };
 
 //
@@ -67,7 +69,7 @@ void	*proc(void *arg);
 // Starts the simulation.
 void	start_simulation(t_prog *p);
 
-int	sleep_aware(int unsigned microseconds, _Atomic int const *sim_end);
+int		 sleep_aware(int unsigned dur_us, int const volatile *sim_end);
 
 ////////////////////////////////////////////////////////////////////////////////
 //	Logging function.														  //
@@ -86,10 +88,11 @@ int	sleep_aware(int unsigned microseconds, _Atomic int const *sim_end);
 # define LOG_BUF_SIZE 49
 
 // too bad I can't name this log()
-void	log_state(unsigned int id, char const *msg, _Atomic int const *sim_end);
+void	log_state(t_philo *p, char const *msg);
+void	log_state_no_critical(t_philo *p, char const *msg);
 
 // Current timestamp in ms.
-unsigned long	now_ms(void);
+unsigned long	now_ms(unsigned long start_time);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Utils																	  //

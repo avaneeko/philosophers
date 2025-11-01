@@ -6,7 +6,7 @@
 /*   By: losypenk <losypenk@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 15:44:14 by losypenk          #+#    #+#             */
-/*   Updated: 2025/10/22 13:08:22 by losypenk         ###   ########.fr       */
+/*   Updated: 2025/11/01 12:28:30 by losypenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ static int	parse_arguments(int argc, char const **argv, t_prog *out)
 int	program_init(int argc, char const **argv, t_prog *out)
 {
 	*out = (t_prog){0};
+	out->start_time = now_ms(0);
 	if (!parse_arguments(argc, argv, out))
 	{
 		out->err = EINVAL;

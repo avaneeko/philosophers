@@ -13,7 +13,7 @@ static unsigned long now_us(void)
     gettimeofday(&tv, NULL);
     return (unsigned long)tv.tv_sec * 1000000ul + (unsigned long)tv.tv_usec;
 }
-int sleep_aware(int unsigned dur_us, _Atomic int const *sim_end)
+int sleep_aware(int unsigned dur_us, int const volatile *sim_end)
 {
     const unsigned long end = now_us() + dur_us;
 	unsigned long now;
@@ -35,25 +35,3 @@ int sleep_aware(int unsigned dur_us, _Atomic int const *sim_end)
     }
 	return (*sim_end);
 }
-// int	sleep_aware(int unsigned microseconds, _Atomic int const *sim_end)
-// {
-// 	int unsigned	slept;
-
-// 	slept = 0;
-// 	while (slept < microseconds)
-// 	{
-// 		if (*sim_end)
-// 			return (1);
-// 		if (microseconds - slept > 10)
-// 		{
-// 			usleep(10);
-// 			slept += 10;
-// 		}
-// 		else
-// 		{
-// 			usleep(microseconds - slept);
-// 			break ;
-// 		}
-// 	}
-// 	return (*sim_end);
-// }

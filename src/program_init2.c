@@ -10,6 +10,22 @@ static int	alloc_data(t_prog *p);
 static int	init_criticals(t_prog *p);
 static int	create_threads(t_prog *p);
 
+static int	create_acq_or_fail(t_prog *p)
+{
+	unsigned int	i;
+
+
+	if (pthread_mutex_init(&p->print_acq, NULL) != 0)
+	{
+		i = ~0;
+		while (++i < p->n_philo)
+			pthread_mutex_destroy(&p->forks[i]);
+		null_free((void *[]){&p->philos, &p->th, &p->forks, NULL});
+		return (0);
+	}
+	return (1);
+}
+
 // Allocate simulation resources: critical sections and threads.
 // Returns 0 on failure.
 int	alloc_simulation(t_prog *p)
@@ -28,9 +44,8 @@ int	alloc_simulation(t_prog *p)
 		p->philos[i].n_eaten = 0;
 		p->philos[i].last_meal = 0;
 	}
-	if (!init_criticals(p) || !create_threads(p))
+	if (!init_criticals(p) || !create_threads(p) || !create_acq_or_fail(p))
 		return (0);
-	if (!pthread_mutex_init(&p->print_acq, NULL))
 	return (1);
 }
 
