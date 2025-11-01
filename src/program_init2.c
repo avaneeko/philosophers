@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   program_init2.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: losypenk <losypenk@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/01 13:33:24 by losypenk          #+#    #+#             */
+/*   Updated: 2025/11/01 13:41:40 by losypenk         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 //$ This file implements functions that populate the critical section and thread
@@ -13,7 +25,6 @@ static int	create_threads(t_prog *p);
 static int	create_acq_or_fail(t_prog *p)
 {
 	unsigned int	i;
-
 
 	if (pthread_mutex_init(&p->print_acq, NULL) != 0)
 	{
@@ -105,7 +116,10 @@ static int	create_threads(t_prog *p)
 	i = ~0;
 	while (++i < p->n_philo)
 	{
-		p->err = pthread_create(p->th + i, NULL, proc, p->philos + i);
+		if (p->n_philo == 1)
+			p->err = pthread_create(p->th, NULL, proc_single, p->philos + i);
+		else
+			p->err = pthread_create(p->th + i, NULL, proc, p->philos + i);
 		if (p->err)
 		{
 			p->sim_stop = 1;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   log_state.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: losypenk <losypenk@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/01 13:22:52 by losypenk          #+#    #+#             */
+/*   Updated: 2025/11/01 13:24:20 by losypenk         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 //$ This file defines a function that logs the state of the simulation.
@@ -5,13 +17,12 @@
 
 unsigned long	now_ms(unsigned long start_time);
 
-// This assumes out_size points to an initialized value.
-unsigned	ultostr(unsigned long n, char *s)
+unsigned int	ultostr(unsigned long n, char *s)
 {
 	unsigned int	i;
 
 	if (n == 0)
-		return (s[0] = '0') == '0';
+		return ((s[0] = '0') == '0');
 	i = 0;
 	while (n)
 	{
@@ -22,7 +33,6 @@ unsigned	ultostr(unsigned long n, char *s)
 	return (i);
 }
 
-// id - philosophers id (not number!!!)
 // msg - message from the MSG_* defines.
 void	log_state(t_philo *p, char const *msg)
 {
@@ -62,23 +72,12 @@ void	log_state_no_critical(t_philo *p, char const *msg)
 		write(STDOUT_FILENO, buf, i);
 }
 
-// REVISED LOCAL
 unsigned long	now_ms(unsigned long start_time)
 {
 	struct timeval	tv;
 
 	if (gettimeofday(&tv, NULL) != 0)
-		return 0;
-	return ((unsigned long)tv.tv_sec * 1000u
-		+ (unsigned long)tv.tv_usec / 1000u) - start_time;
+		return (0);
+	return (((unsigned long)tv.tv_sec * 1000u
+			+ (unsigned long)tv.tv_usec / 1000u) - start_time);
 }
-
-// Current timestamp in ms.
-// unsigned long	now_ms(void)
-// {
-// 	struct timeval	tv;
-
-// 	if (gettimeofday(&tv, NULL) != 0)
-// 		return 0;
-// 	return (unsigned long)tv.tv_sec * 1000u + (unsigned long)tv.tv_usec / 1000u;
-// }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils2.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: losypenk <losypenk@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/01 13:33:01 by losypenk          #+#    #+#             */
+/*   Updated: 2025/11/01 13:33:07 by losypenk         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 void	mreverse(void *p, size_t size)
@@ -14,7 +26,7 @@ void	mreverse(void *p, size_t size)
 	}
 }
 
-void	mcpy(void *dst, void const* src, size_t size)
+void	mcpy(void *dst, void const *src, size_t size)
 {
 	unsigned char		*d;
 	unsigned char const	*s;

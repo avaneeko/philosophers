@@ -6,7 +6,7 @@
 /*   By: losypenk <losypenk@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/09 15:44:14 by losypenk          #+#    #+#             */
-/*   Updated: 2025/11/01 12:28:30 by losypenk         ###   ########.fr       */
+/*   Updated: 2025/11/01 13:26:06 by losypenk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ int	alloc_simulation(t_prog *p);
 //	Decimal string to unsigned.
 //*	Returns 1 on successful conversion and 0 on overflow or conversion failure.
 //
-int	stou(char const *s, unsigned *out)
+int	stou(char const *s, unsigned int *out)
 {
-	unsigned	n;
-	int			overflow;
-	int			saw_digit;
-	unsigned	dec;
+	unsigned int	n;
+	int				overflow;
+	int				saw_digit;
+	unsigned int	dec;
 
 	n = 0;
 	overflow = 0;
@@ -65,7 +65,7 @@ static int	parse_arguments(int argc, char const **argv, t_prog *out)
 	else
 		out->n_to_eat = ~0;
 	return (failure == 0 && out->n_philo && out->t_die && out->t_eat
-			&& out->t_sleep && out->n_to_eat);
+		&& out->t_sleep && out->n_to_eat);
 }
 
 int	program_init(int argc, char const **argv, t_prog *out)
